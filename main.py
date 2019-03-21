@@ -1,82 +1,82 @@
 
 import sys 
 
-clients = ['Lionel', 'Gerard']
+dishes = ['Orilla', 'Desierto Rojo']
 
-def create_client(client_name):
-    global clients
+def create_dish(dish_name):
+    global dishes
 
-    if client_name not in clients:
-        clients.append(client_name)
+    if dish_name not in dishes:
+        dishes.append(dish_name)
     else: 
-        print('Client already is in the client\'s list')
+        print('This dish already is in the list')
 
 
-def update_client(client_name):
-    global clients
+def update_dish(dish_name):
+    global dishes
 
-    if client_name in clients:
-        index = clients.index(client_name)
-        updated_name = input('What is the updated client name ? ')
-        clients[index] = updated_name
+    if dish_name in dishes:
+        index = dishes.index(dish_name)
+        updated_name = input('What is the updated dish name ? ')
+        dishes[index] = updated_name
     else: 
         not_in_list_msg
 
 
-def search_client(client_name):
-    global clients
+def search_dish(dish_name):
+    global dishes
 
-    for client in clients:
-        if client != client_name:
+    for dish in dishes:
+        if dish != dish_name:
             continue
         else:
             return True
 
 
-def delete_client(client_name):
-    global clients
+def delete_dish(dish_name):
+    global dishes
 
-    if client_name in clients:
-        clients.remove(client_name)
+    if dish_name in dishes:
+        dishes.remove(dish_name)
     else: 
         not_in_list_msg()
 
 
-def get_client_name():
-    client_name = None
+def get_dish_name():
+    dish_name = None
 
-    while not client_name: 
-        client_name = str(input('What is the client name ? '))
+    while not dish_name: 
+        dish_name = str(input('What is the dish name ? '))
 
-        if client_name == 'exit': 
-            client_name = None
+        if dish_name == 'exit': 
+            dish_name = None
             break 
 
-    if not client_name: 
+    if not dish_name: 
         sys.exit()
 
-    return client_name
+    return dish_name
 
 
 def not_in_list_msg():
-    print('Name is not in client\'s list')
+    print('This dish is not in the list')
     
 
 
-def list_clients():
-    for index, client in enumerate(clients):
-        print('{}: {}'.format(index, client))
+def list_dishes():
+    for index, dish in enumerate(dishes):
+        print('{}: {}'.format(index, dish))
 
 
 def print_welcome():
     print('WELCOME PYTHON CRUD')
     print('*' * 50)
     print('What would you like to do today ?')
-    print('[C]reate client')
-    print('[L]ist clients')
-    print('[U]pdate client')
-    print('[D]elete client')
-    print('[S]earch client')
+    print('[C]reate dish')
+    print('[L]ist dishes')
+    print('[U]pdate dish')
+    print('[D]elete dish')
+    print('[S]earch dish')
 
 
 print_welcome()
@@ -85,25 +85,25 @@ command = input()
 command = command.upper()
 
 if command == 'C':
-    client_name = get_client_name()
-    create_client(client_name)
-    list_clients()
+    dish_name = get_dish_name()
+    create_dish(dish_name)
+    list_dishes()
 elif command == 'L':
-    list_clients()
+    list_dishes()
 elif command == 'U':
-    client_name = get_client_name()
-    update_client(client_name)
-    list_clients()    
+    dish_name = get_dish_name()
+    update_dish(dish_name)
+    list_dishes()    
 elif command == 'D':
-    client_name = get_client_name()
-    delete_client(client_name)
-    list_clients()  
+    dish_name = get_dish_name()
+    delete_dish(dish_name)
+    list_dishes()  
 elif command == 'S':
-    client_name = get_client_name()
-    found = search_client(client_name)
+    dish_name = get_dish_name()
+    found = search_dish(dish_name)
     if found: 
-        print('The client is in the client\'s list')
+        print('The dish is in the list')
     else:
-        print('The name {} is not in our client\'s list'.format(client_name))
+        print('The dish {} is not in our list'.format(dish_name))
 else: 
     print('Invalid command')
