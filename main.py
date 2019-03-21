@@ -1,18 +1,27 @@
 
-import sys 
+import csv
+import os
 
-dishes = [
-    {
-        'name': 'Orilla',
-        'ingredients': 'Chancana - Zanahoria - Sargazo', 
-        'high': '-10'
-    },
-    {
-        'name': 'Desierto Rojo',
-        'ingredients': 'Cactácea - Beterraga - Huarango', 
-        'high': '180'
-    }
-]
+DISHES_TABLE = 'dishes.csv'
+DISHES_SCHEMA = ['name', 'ingredients', 'high', 'category']
+
+dishes = []
+
+def initialize_dishes_from_storage():
+    with open(DISHES_TABLE, mode='r') as f:
+        reader = csv.DictReader(f, fieldnames=DISHES_SCHEMA)
+
+        for row in reader: 
+            dishes.append(row)
+
+def save_dishes_to_storage():
+    tmp_table_name = '{}.tmp'.format(DISHES_TABLE)
+    with open(tmp_table_name, mode='w') as f:
+        writer = csv.DictWriter(f, fieldnames=DISHES_SCHEMA)
+        writer.writerows(dishes)
+
+        os.remove(DISHES_TABLE)
+        os.rename(tmp_table_name, DISHES_TABLE)
 
 def create_dish(dish):
     global dishes
@@ -76,7 +85,7 @@ def get_dish_field(field_name):
     field = None 
 
     while not field: 
-        field = input('What is the dish {} ?'.format(field_name))
+        field = input('What is the dish {} ? '.format(field_name))
 
     return field
 
@@ -111,6 +120,8 @@ def print_welcome():
 
 # MAIN
 
+initialize_dishes_from_storage()
+
 print_welcome()
 
 command = input()
@@ -123,17 +134,14 @@ if command == 'C':
         'high': get_dish_field('high')
     }
     create_dish(dish)
-    list_dishes()
 elif command == 'L':
     list_dishes()
 elif command == 'U':
     dish_id = get_dish_id()
-    update_dish(dish_id)
-    list_dishes()    
+    update_dish(dish_id)    
 elif command == 'D':
     dish_id = get_dish_id()
-    delete_dish(dish_id)
-    list_dishes()  
+    delete_dish(dish_id) 
 elif command == 'S':
     dish_id = get_dish_id()
     found = search_dish(dish_id)
@@ -143,3 +151,5 @@ elif command == 'S':
         print('The dish {} is not in our list'.format(dish_name))
 else: 
     print('Invalid command')
+
+save_dishes_to_storage()
