@@ -3,7 +3,7 @@ import csv
 import os
 
 DISHES_TABLE = 'dishes.csv'
-DISHES_SCHEMA = ['name', 'ingredients', 'high', 'category']
+DISHES_SCHEMA = ['name', 'ingredients', 'high']
 
 dishes = []
 
@@ -99,6 +99,8 @@ def not_in_list_msg():
     
 
 def list_dishes():
+    print('ID | Name | Ingredients | High |')
+    print('-' * 50)
     for index, dish in enumerate(dishes):
         print('{dish_id} | {name} | {ingredients} | {high} msnm'.format(
             dish_id = index,
@@ -117,39 +119,46 @@ def print_welcome():
     print('[U]pdate dish')
     print('[D]elete dish')
     print('[S]earch dish')
+    print('[E]xit')
 
 # MAIN
 
 initialize_dishes_from_storage()
 
-print_welcome()
+command = ''
 
-command = input()
-command = command.upper()
+while command != 'E':
 
-if command == 'C':
-    dish = {
-        'name': get_dish_field('name'),
-        'ingredients': get_dish_field('ingredients'),
-        'high': get_dish_field('high')
-    }
-    create_dish(dish)
-elif command == 'L':
-    list_dishes()
-elif command == 'U':
-    dish_id = get_dish_id()
-    update_dish(dish_id)    
-elif command == 'D':
-    dish_id = get_dish_id()
-    delete_dish(dish_id) 
-elif command == 'S':
-    dish_id = get_dish_id()
-    found = search_dish(dish_id)
-    if found: 
-        print('The dish is in the list')
-    else:
-        print('The dish {} is not in our list'.format(dish_name))
-else: 
-    print('Invalid command')
+    print_welcome()
+
+    command = input()
+    command = command.upper()
+
+    if command == 'C':
+        dish = {
+            'name': get_dish_field('name'),
+            'ingredients': get_dish_field('ingredients'),
+            'high': get_dish_field('high')
+        }
+        create_dish(dish)
+    elif command == 'L':
+        list_dishes()
+    elif command == 'U':
+        dish_id = get_dish_id()
+        update_dish(dish_id)    
+    elif command == 'D':
+        dish_id = get_dish_id()
+        delete_dish(dish_id) 
+    elif command == 'S':
+        dish_id = get_dish_id()
+        found = search_dish(dish_id)
+        if found: 
+            print('The dish is in the list')
+        else:
+            print('The dish {} is not in our list'.format(dish_name))
+    elif command == 'E':
+        print('Thanks for use the system!')
+    else: 
+        print('Invalid command')
 
 save_dishes_to_storage()
